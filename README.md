@@ -31,7 +31,7 @@ cd dash-rpi/
 sudo make install
 ```
 
-Now you can access all the functions of the [Eight 24-Bit Analog Inputs DAQ](https://sequentmicrosystems.com/products/eight-24bit-analog-inputs-daq-8-layer-stackable-hat-for-raspberry-pi) through the command "24b8vin". Use -h option for help:
+Now you can access all the functions of the Dashboard controller  through the command "dash". Use -h option for help:
 ```bash
 dash -h
 ```
