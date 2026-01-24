@@ -1,0 +1,34 @@
+#include "board.h"
+#include "cli.h"
+#include "help.h"
+#include "wdt.h"
+#include "opto.h"
+#include "u10in.h"
+#include "rin.h"
+
+
+const CliCmdType *gCmdArray[] = {
+	&CMD_HELP,
+	&CMD_VERSION,
+	&CMD_LIST,
+	&CMD_BOARD,
+	&CMD_U10_IN_READ,
+	&CMD_R_IN_READ,
+	&CMD_BL_WR,
+	&CMD_OD_OUT_WRITE,
+	&CMD_OPTO_READ,
+	&CMD_OPTO_EDGE_WRITE,
+	&CMD_OPTO_EDGE_READ,
+	&CMD_OPTO_CNT_READ,
+	&CMD_OPTO_CNT_RESET,
+	&CMD_WDT_RELOAD,
+	&CMD_WDT_GET_PERIOD,
+	&CMD_WDT_SET_PERIOD,
+	&CMD_WDT_GET_INIT_PERIOD,
+	&CMD_WDT_SET_INIT_PERIOD,
+	&CMD_WDT_GET_OFF_PERIOD,
+	&CMD_WDT_SET_OFF_PERIOD,
+	&CMD_WDT_GET_RESET_COUNT,
+	&CMD_WDT_CLR_RESET_COUNT,
+	0
+};
