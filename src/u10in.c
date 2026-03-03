@@ -142,3 +142,29 @@ int doODWrite(int argc, char *argv[]) {
 // }/*}}}*/
 
 // vi: fdm=marker
+
+const CliCmdType CMD_VCC_READ = {/*{{{*/
+	"vccrd",
+	1,
+	&doVccRead,
+	"  vccrd            Read card supply voltage value(V)\n",
+	"  Usage:           "PROGRAM_NAME" vccrd \n",
+	"  Example:         "PROGRAM_NAME" vccrd #Read VCC voltage, card supply voltage\n",
+};
+int doVccRead(int argc, char *argv[]) {
+	(void)argv;
+	if(argc != 2) {
+		return ARG_CNT_ERR;
+	}
+	int dev = doBoardInit(0);
+	if(dev < 0) {
+		return ERR;
+	}
+	float val = 0;
+	if(OK != val16Get(dev, I2C_MEM_DIAG_VCC_MV, 1, VOLT_TO_MILIVOLT, &val)) {
+		return ERR;
+	}
+	printf("%0.3f\n", val);
+	return OK;
+}/*}}}*/
+
