@@ -535,6 +535,120 @@ int doPwrOffDebounceGet(int argc, char *argv[]) {
 	return OK;
 }
 
+const CliCmdType CMD_DISPLAY_AUTO_ON_INTERVAL_SET = {
+	"dintonwr",
+	1,
+	&doDisplayAutoOnIntervalSet,
+	"  dintonwr          Set the display auto on interval in seconds.\n",
+	"  Usage:           "PROGRAM_NAME" dintonwr <val>\n",
+	"  Example:         "PROGRAM_NAME" dintonwr 50; Set the display auto on interval at 50 s\n"
+};
+int doDisplayAutoOnIntervalSet(int argc, char *argv[]) {
+	if(argc != 3) {
+		return ARG_CNT_ERR;
+	}
+	int dev = doBoardInit(0);
+	if (dev < 0) {
+		return ERROR;
+	}
+	uint16_t interval = atoi(argv[2]);
+	if(interval < 10 || interval > 600) {
+		printf("Invalid display auto on interval! Only 10 to 600 seconds are valid.\n");
+		return ARG_RANGE_ERROR;
+	}
+	uint8_t buf[2];
+	memcpy(buf, &interval, 2);
+	if (OK != i2cMem8Write(dev, I2C_MEM_DISPLAY_AUTO_ON_INTERVAL_S_ADD, buf, 2)) {
+		printf("Fail to write display auto on interval!\n");
+		return ERROR;
+	}
+	return OK;
+}
 
+const CliCmdType CMD_DISPLAY_AUTO_ON_INTERVAL_GET = {
+	"dintonrd",
+	1,
+	&doDisplayAutoOnIntervalGet,
+	"  dintonrd          Get the display auto on interval in seconds.\n",
+	"  Usage:           "PROGRAM_NAME" dintonrd\n",
+	"  Example:         "PROGRAM_NAME" dintonrd; Get the display auto on interval \n"
+};
+int doDisplayAutoOnIntervalGet(int argc, char *argv[]) {
+	(void)argv;
+	if(argc != 2) {
+		return ARG_CNT_ERR;
+	}
+	int dev = doBoardInit(0);
+	if (dev < 0) {
+		return ERROR;
+	}
+	uint8_t buf[2];
+	if (OK != i2cMem8Read(dev, I2C_MEM_DISPLAY_AUTO_ON_INTERVAL_S_ADD, buf, 2)) {
+		printf("Fail to read display auto on interval!\n");
+		return ERROR;
+	}
+	uint16_t interval;
+	memcpy(&interval, buf, 2);
+	printf("%d\n", (int)interval);
+	return OK;
+}
+
+const CliCmdType CMD_DISP_FADE_SET = {
+	"dfadewr",
+	1,
+	&doDisplayFadeSet,
+	"  dfadewr          Set the display fade increment Update rate is 10mS, increment resolution is 0.1%%.\n",
+	"  Usage:           "PROGRAM_NAME" dfadewr <val>\n",
+	"  Example:         "PROGRAM_NAME" dfadewr 5; Set the display fade increment to 0.5%% \n"
+};
+int doDisplayFadeSet(int argc, char *argv[]) {
+	if(argc != 3) {
+		return ARG_CNT_ERR;
+	}
+	int dev = doBoardInit(0);
+	if (dev < 0) {
+		return ERROR;
+	}
+	uint16_t increment = atoi(argv[2]);
+	if(increment < 1 || increment > 100) {
+		printf("Invalid display fade increment! Only 1 to 100 (0.1%% to 10%%) are valid.\n");
+		return ARG_RANGE_ERROR;
+	}
+	uint8_t buf[2];
+	memcpy(buf, &increment, 2);
+	if (OK != i2cMem8Write(dev, I2C_MEM_DISPLAY_FADE_INCREMENT, buf, 2)) {
+		printf("Fail to write display fade increment!\n");
+		return ERROR;
+	}
+	return OK;
+}
+
+const CliCmdType CMD_DISP_FADE_GET = {
+	"dfaderd",
+	1,
+	&doDisplayFadeGet,
+	"  dfaderd          Get the display fade increment.\n",
+	"  Usage:           "PROGRAM_NAME" dfaderd\n",
+	"  Example:         "PROGRAM_NAME" dfaderd; Get the display fade increment \n"
+};
+int doDisplayFadeGet(int argc, char *argv[]) {
+	(void)argv;
+	if(argc != 2) {
+		return ARG_CNT_ERR;
+	}
+	int dev = doBoardInit(0);
+	if (dev < 0) {
+		return ERROR;
+	}
+	uint8_t buf[2];
+	if (OK != i2cMem8Read(dev, I2C_MEM_DISPLAY_FADE_INCREMENT, buf, 2)) {
+		printf("Fail to read display fade increment!\n");
+		return ERROR;
+	}
+	uint16_t increment;
+	memcpy(&increment, buf, 2);
+	printf("%d\n", (int)increment);
+	return OK;
+}	
 
 // vi:fdm=marker

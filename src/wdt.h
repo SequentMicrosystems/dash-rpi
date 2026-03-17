@@ -21,6 +21,10 @@ extern const CliCmdType CMD_PWR_OFF_DEBOUNCE_SET;
 extern const CliCmdType CMD_PWR_GET_OFF_DELAY;
 extern const CliCmdType CMD_PWR_SET_OFF_DELAY;
 extern const CliCmdType CMD_PWR_GET_PRESENT;
+extern const CliCmdType CMD_DISP_FADE_GET;
+extern const CliCmdType CMD_DISP_FADE_SET;
+extern const CliCmdType CMD_DISPLAY_AUTO_ON_INTERVAL_GET;
+extern const CliCmdType CMD_DISPLAY_AUTO_ON_INTERVAL_SET;
 
 
 int doWdtReload(int argc, char *argv[]);
@@ -41,6 +45,11 @@ int doPwrOffDebounceSet(int argc, char *argv[]);
 int doPwrGetOffDelay(int argc, char *argv[]);
 int doPwrSetOffDelay(int argc, char *argv[]);
 int doPwrGetPresent(int argc, char *argv[]);
+int doDisplayFadeGet(int argc, char *argv[]);
+int doDisplayFadeSet(int argc, char *argv[]);
+int doDisplayAutoOnIntervalGet(int argc, char *argv[]);
+int doDisplayAutoOnIntervalSet(int argc, char *argv[]);
+
 
 #endif /* WDT_H */
 
