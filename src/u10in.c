@@ -106,6 +106,93 @@ int doODWrite(int argc, char *argv[]) {
 	return OK;
 }/*}}}*/
 
+const CliCmdType CMD_OD_OUT_READ = {/*{{{*/
+	"odrd",
+	1,
+	&doODRead,
+	"  odrd            Read Open_drain output PWM value(0-100%)\n",
+	"  Usage:           "PROGRAM_NAME" odrd <ch>\n",
+	"  Example:         "PROGRAM_NAME" odrd 1 #Read Open_drain output #1 PWM value\n",
+};
+int doODRead(int argc, char *argv[]) {
+	if(argc != 3) {
+		return ARG_CNT_ERR;
+	}
+	int dev = doBoardInit(0);
+	if(dev < 0) {
+		return ERR;
+	}
+	int ch = atoi(argv[2]);
+	float val = 0;
+	if(badODCh(ch)) {
+		return ARG_RANGE_ERR;
+	}
+	if(OK != val16Get(dev, I2C_MEM_OD_PWM_START, ch, 10, &val)) {
+		return ERR;
+	}
+	printf("%0.1f\n", val);
+	return OK;
+}
+
+const CliCmdType CMD_OD_FS_WRITE = {/*{{{*/
+	"odfswr",
+	1,
+	&doODFSWrite,
+	"  odfswr            Write Open_drain output Fail safe PWM value(0-100%), the value is loaded when pi is powered off\n",
+	"  Usage:           "PROGRAM_NAME" odfswr <ch> <value>\n",
+	"  Example:         "PROGRAM_NAME" odfswr 1 50 #Set Open_drain output #1 Fail safe PWM to 50%\n",
+};
+int doODFSWrite(int argc, char *argv[]) {
+	if(argc != 4) {
+		return ARG_CNT_ERR;
+	}
+	int dev = doBoardInit(0);
+	if(dev < 0) {
+		return ERR;
+	}
+	int ch = atoi(argv[2]);
+	float val = atof(argv[3]);
+	if(badODCh(ch)) {
+		return ARG_RANGE_ERR;
+	}
+	if( (val < 0) || (val > 100) ) {
+		printf("Open_drain output Fail safe PWM value out of range![0..100]\n");
+		return ARG_RANGE_ERR;
+	}
+	if(OK != val16Set(dev, I2C_MEM_OD1_PWM_DEFAULT , ch, 10, val)) {
+		return ERR;
+	}
+	return OK;
+}
+
+const CliCmdType CMD_OD_FS_READ = {/*{{{*/
+	"odfsrd",
+	1,
+	&doODFSRead,
+	"  odfsrd            Read Open_drain output Fail safe PWM value(0-100%), the value is loaded when pi is powered off\n",
+	"  Usage:           "PROGRAM_NAME" odfsrd <ch>\n",
+	"  Example:         "PROGRAM_NAME" odfsrd 1 #Read Open_drain output #1 Fail safe PWM value\n",
+};
+int doODFSRead(int argc, char *argv[]) {
+	if(argc != 3) {
+		return ARG_CNT_ERR;
+	}
+	int dev = doBoardInit(0);
+	if(dev < 0) {
+		return ERR;
+	}
+	int ch = atoi(argv[2]);
+	if(badODCh(ch)) {
+		return ARG_RANGE_ERR;
+	}
+	float val = 0;
+	if(OK != val16Get(dev, I2C_MEM_OD1_PWM_DEFAULT , ch, 10, &val)) {
+		return ERR;
+	}
+	printf("%0.1f\n", val);
+	return OK;
+}
+
 
 // const CliCmdType CMD_U10_IN_CAL = {/*{{{*/
 // 	"uincal",

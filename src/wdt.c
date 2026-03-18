@@ -552,8 +552,8 @@ int doDisplayAutoOnIntervalSet(int argc, char *argv[]) {
 		return ERROR;
 	}
 	uint16_t interval = atoi(argv[2]);
-	if(interval < 10 || interval > 600) {
-		printf("Invalid display auto on interval! Only 10 to 600 seconds are valid.\n");
+	if(interval < 2 || interval > 600) {
+		printf("Invalid display auto on interval! Only 2 to 600 seconds are valid.\n");
 		return ARG_RANGE_ERROR;
 	}
 	uint8_t buf[2];
